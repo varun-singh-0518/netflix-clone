@@ -17,14 +17,19 @@ export default function Navbar({isScrolled}) {
 
   const navigate = useNavigate();
 
+  //to listen for changes in the user's authentication state.
   onAuthStateChanged(firebaseAuth, (currentUser) => {
+    //If there is no authenticated user (!currentUser), it navigates to the "/login" route.
     if (!currentUser) {
       navigate("/login");
     }
   });
 
+  //Manages the visibility of the search component.
   const [showSearch, setShowSearch] = useState(false);
+  //Tracks whether the search input is being hovered.
   const [inputHover, setInputHover] = useState(false);
+  //Manages the state of the mobile menu.
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (

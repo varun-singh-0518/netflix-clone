@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const url = "mongodb://127.0.0.1:27017/netflix";
+const url = process.env.DB_URL;
 
 export const connectUsingMongoose = async () => {
   try {

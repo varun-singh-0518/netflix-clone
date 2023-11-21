@@ -2,12 +2,14 @@ import {configureStore, createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {API_KEY, TMBD_BASE_URL} from "../utils/constants";
 import axios from "axios";
 
+// Initializes the Redux state with three properties.
 const initialState = {
-  movies: [],
-  genresLoaded: false,
-  genres: [],
+  movies: [], //an array to store movie data
+  genresLoaded: false, //a boolean to track whether genres have been loaded
+  genres: [], //an array to store movie genres
 };
 
+//an asynchronous thunk action creator to fetch movie genres from TMDb API.
 export const getGenres = createAsyncThunk("netflix/genres", async () => {
   const {
     data: {genres},
@@ -15,11 +17,17 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
   return genres;
 });
 
+//This function takes three parameters:
+// array: An array of raw movie data.
+// moviesArray: An array where the processed movie data will be stored.
+// genres: An array containing information about movie genres.
 const createArrayFromRawData = (array, moviesArray, genres) => {
   array.forEach((movie) => {
+    //an empty array for storing the names of genres associated with the current movie.
     const movieGenres = [];
     movie.genre_ids.forEach((genre) => {
       const name = genres.find(({id}) => id === genre);
+      //if a matching genre is found, its name property is pushed into the movieGenres array.
       if (name) {
         movieGenres.push(name.name);
       }
@@ -35,6 +43,10 @@ const createArrayFromRawData = (array, moviesArray, genres) => {
   });
 };
 
+// function to get the raw data from api.
+// api: The base API URL for fetching movie data.
+// genres: An array containing information about movie genres.
+// paging: A boolean indicating whether pagination should be used.
 const getRawData = async (api, genres, paging) => {
   const moviesArray = [];
   for (let i = 1; moviesArray.length < 60 && i < 10; i++) {
@@ -51,7 +63,7 @@ export const fetchMovies = createAsyncThunk(
   async ({type}, thunkApi) => {
     const {
       netflix: {genres},
-    } = thunkApi.getState();
+    } = thunkApi.getState(); // Extracts the genres from the Redux store using thunkApi.getState().
     return getRawData(
       `${TMBD_BASE_URL}/trending/${type}/week?api_key=${API_KEY}`,
       genres,
@@ -79,8 +91,9 @@ export const getUserLikedMovies = createAsyncThunk(
     const movie = await axios.post(`http://localhost:5000/api/user/liked`, {
       email,
     });
+
+    //extracts the data from the response using movie.data. The data represents a list of liked movies associated with the provided email.
     const movies = movie.data;
-    console.log(movies);
     return movies;
   }
 );
@@ -92,12 +105,14 @@ export const removeFromLikedMovies = createAsyncThunk(
       email,
       movieID,
     });
-    console.log("deleted movies:", movie);
+
     const movies = movie.data;
     return movies;
   }
 );
 
+//createSlice function is part of the Redux Toolkit and is used to create a Redux slice.
+//A slice contains the reducer logic and initial state for a specific portion of the Redux store.
 const NetflixSlice = createSlice({
   name: "Netflix",
   initialState,
@@ -122,6 +137,8 @@ const NetflixSlice = createSlice({
 });
 
 export const store = configureStore({
+  //reducer: The reducers are combined and passed to the store.
+  //In this case, there is only one slice named "Netflix," and its reducer is added to the store.
   reducer: {
     netflix: NetflixSlice.reducer,
   },

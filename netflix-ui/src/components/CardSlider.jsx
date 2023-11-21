@@ -9,8 +9,12 @@ export default React.memo(function CardSlider({data, title}) {
   const listRef = useRef();
 
   const handleDirection = (direction) => {
+    //Get the distance of the slider list from a reference point (70 pixels to the left)
     let distance = listRef.current.getBoundingClientRect().x - 70;
+
+    //Check if the direction is "left" and if there's room to move left
     if (direction === "left" && sliderPosition > 0) {
+      // Update the transform style property to move the slider left
       listRef.current.style.transform = `translateX(${230 + distance}px)`;
       setSliderPosition(sliderPosition - 1);
     }

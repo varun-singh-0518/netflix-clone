@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import {fetchMovies, getGenres} from "../store/store";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
@@ -10,9 +9,15 @@ import SelectGenre from "../components/SelectGenre";
 
 export default function Movies() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const navigate = useNavigate();
+
+  //genresLoaded: Uses the useSelector hook to extract the value of genresLoaded from the Redux store.
+  // This variable indicates whether genres have been loaded.
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
+
+  //Retrieves the movies array from the Redux store
   const movies = useSelector((state) => state.netflix.movies);
+
+  //Retrieves the genres array from the Redux store. This array typically represents the available genres for movies.
   const genres = useSelector((state) => state.netflix.genres);
 
   const dispatch = useDispatch();
@@ -22,6 +27,7 @@ export default function Movies() {
   }, []);
 
   useEffect(() => {
+    //This ensures that movies are fetched only after genres have been loaded.
     if (genresLoaded) {
       dispatch(fetchMovies({type: "movie"}));
     }
@@ -32,12 +38,6 @@ export default function Movies() {
     return () => (window.onscroll = null);
   };
 
-  // onAuthStateChanged(firebaseAuth, (currentUser) => {
-  //   if (currentUser) {
-  //     navigate("/");
-  //   }
-  // });
-
   return (
     <Container>
       <div className="navbar">
@@ -45,6 +45,7 @@ export default function Movies() {
       </div>
       <div className="data">
         <SelectGenre genres={genres} type="movie" />
+        {/* render either a Slider component (if movies array has length) or a NotAvailable component (if movies array is empty). */}
         {movies.length ? <Slider movies={movies} /> : <NotAvailable />}
       </div>
     </Container>

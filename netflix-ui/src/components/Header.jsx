@@ -10,6 +10,8 @@ export default function Header(props) {
       <div className="logo">
         <img src={logo} alt="logo" />
       </div>
+      {/* If props.login is truthy, it navigates to "/login"; otherwise, it
+      navigates to "/signup". */}
       <button onClick={() => navigate(props.login ? "/login" : "/signup")}>
         {props.login ? "Login" : "Sign Up"}
       </button>

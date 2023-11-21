@@ -10,7 +10,9 @@ import {firebaseAuth} from "../utils/firebase-config";
 import {useNavigate} from "react-router-dom";
 
 export default function Signup() {
+  // state for controlling the visibility of the password. It will toggle between showing and hiding the password.
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const [formValues, setFormValues] = useState({

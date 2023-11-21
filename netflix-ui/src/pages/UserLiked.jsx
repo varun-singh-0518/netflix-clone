@@ -13,7 +13,6 @@ export default function UserLiked() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.netflix.movies);
-  console.log("movies :", movies);
 
   const [email, setEmail] = useState(undefined);
 

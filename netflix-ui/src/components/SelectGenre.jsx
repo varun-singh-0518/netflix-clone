@@ -12,9 +12,9 @@ export default function SelectGenre({genres, type}) {
       onChange={(e) => {
         dispatch(
           fetchDataByGenre({
-            genres,
-            genre: e.target.value,
-            type,
+            genres, //The array of all genres.
+            genre: e.target.value, //The value of the selected option
+            type, //The type prop passed to the component.
           })
         );
       }}

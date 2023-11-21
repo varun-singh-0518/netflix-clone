@@ -24,6 +24,7 @@ export default function Login() {
   };
 
   onAuthStateChanged(firebaseAuth, (currentUser) => {
+    //If an user is detected, it navigates to the home page
     if (currentUser) {
       navigate("/");
     }

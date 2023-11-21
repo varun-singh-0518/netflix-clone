@@ -35,7 +35,6 @@ export default class UserController {
         email,
         movieID
       );
-      // res.send({msg: "Movie Deleted", movies: user.likedMovies});
       res.status(200).send(updatedmovies);
     } catch (err) {
       console.log(err);

@@ -13,7 +13,7 @@ import axios from "axios";
 import {removeFromLikedMovies} from "../store/store";
 import {useDispatch} from "react-redux";
 
-export default React.memo(function Card({index, movieData, isLiked = false}) {
+export default React.memo(function Card({movieData, isLiked = false}) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
