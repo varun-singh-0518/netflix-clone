@@ -13,7 +13,7 @@ app.use(express.json()); //This allows the application to handle JSON data in re
 
 app.use("/api/user", userRouter);
 
-app.listen(5001, () => {
+app.listen(process.env.PORT || 5000, () => {
   connectUsingMongoose();
   console.log("server started");
 });
